@@ -26,6 +26,10 @@ func (this *Monitor) Run() {
 		if !this.MonitorLinkStatus() {
 			if timeout > 0 {
 				ics := base.GetIpsecConnState()
+				if ics == nil {
+					time.Sleep(d)
+					continue
+				}
 				for _, v := range *ics {
 					if !(v.State == "erouted") {
 						log.Printf("%+v\n", v)
@@ -41,6 +45,9 @@ func (this *Monitor) Run() {
 }
 func (this *Monitor) MonitorLinkStatus() bool {
 	ics := base.GetIpsecConnState()
+	if ics == nil {
+		return false
+	}
 	for _, v := range *ics {
 		if !(v.State == "erouted") {
 			return false
