@@ -1,22 +1,22 @@
 package rpc
 
+import (
+	"log"
+	"script/ipsecMonitor/client/services"
+	"time"
+)
+
 type Handler struct {
 }
 
 func (this *Handler) RestartIpsec(args *Args, reply *Status) error {
-	reply.Succ = true
-	// var us db.UploadSetting
-	// if this.DB.First(&us).Error != nil {
-	// 	cfg := config.Config{}
-	// 	err := cfg.Load(filepath.Join("conf", "tramagent.json"))
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// 	*reply = TusReq{Addr: cfg.Tus.Addr, Port: cfg.Tus.Port, UploadTime: -1, Capacity: 30}
-	// 	return nil
-	//
-	// }
-	//
-	// *reply = TusReq{Addr: us.Addr, Port: us.Port, UploadTime: us.UploadTime, Capacity: us.Capacity}
+	log.Printf("server notice time : %s", time.Unix(args.Stamp, 0).Format("01-02 15:04:05"))
+	succ := services.RestartIpsec()
+	reply.Succ = succ
+	if succ {
+		log.Println("restart ipsec success")
+	} else {
+		log.Println("restart ipsec faild")
+	}
 	return nil
 }

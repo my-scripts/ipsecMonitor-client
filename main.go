@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"script/ipsecMonitor/client/config"
 	localrpc "script/ipsecMonitor/client/rpc"
+	"script/ipsecMonitor/client/services"
 )
 
 func main() {
@@ -22,6 +23,9 @@ func main() {
 	// rpc
 	rpc.Register(&localrpc.Handler{})
 	rpc.HandleHTTP()
+
+	monitor := services.Monitor{}
+	go monitor.Run()
 
 	listener, err := net.Listen("tcp4", fmt.Sprintf(":%d", cfg.Rpc.Port))
 	if err != nil {

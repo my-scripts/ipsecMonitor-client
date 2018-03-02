@@ -1,5 +1,8 @@
 {
     "rpc": {
         "port": 10098
+    },
+    "monitor": {
+        "timeout": 30
     }
 }

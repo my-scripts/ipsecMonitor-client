@@ -9,6 +9,9 @@ type Config struct {
 	Rpc struct {
 		Port int `json:"port"`
 	}
+	Monitor struct {
+		Timeout int `json:"timeout"`
+	}
 }
 
 func (this *Config) Load(path string) error {
