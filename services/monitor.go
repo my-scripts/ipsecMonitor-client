@@ -37,7 +37,12 @@ func (this *Monitor) Run() {
 				}
 				timeout = timeout - 5
 			}
+			this.State = false
 		} else {
+			if !this.State {
+				log.Println("ipsec is all erouted")
+				this.State = true
+			}
 			timeout = cfg.Monitor.Timeout
 		}
 		time.Sleep(d)
@@ -51,24 +56,6 @@ func (this *Monitor) MonitorLinkStatus() bool {
 	for _, v := range *ics {
 		if !(v.State == "erouted") {
 			return false
-			// go func(is base.IpsecState) {
-			// 	cfg := config.Config{}
-			// 	err := cfg.Load(filepath.Join("conf", "imclient.json"))
-			// 	if err != nil {
-			// 		log.Panicln("failed to load config: %s", err)
-			// 		return
-			// 	}
-			// 	timeout := cfg.Monitor.Timeout
-			// 	d := time.Duration(5) * time.Second
-			// 	for {
-			// 		if timeout < 0 {
-			// 			return
-			// 		}
-			// 		log.Println(is.GetIpsecConnState())
-			// 		timeout = timeout - 5
-			// 		time.Sleep(d)
-			// 	}
-			// }(v)
 		}
 	}
 	return true
